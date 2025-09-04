@@ -1,5 +1,6 @@
 package com.infiproton.springaidemo.service;
 
+import com.infiproton.springaidemo.model.TravelPlan;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
@@ -20,7 +21,7 @@ public class TravelGuideService {
         this.chatClient = chatClient;
     }
 
-    public String prepareTravelPlan(String city, Integer days) {
+    public TravelPlan prepareTravelPlan(String city, Integer days) {
         PromptTemplate template = new PromptTemplate(travelGuideTemplate);
 
         Map<String, Object> params = Map.of(
@@ -30,7 +31,8 @@ public class TravelGuideService {
         Prompt prompt = template.create(params);
 
         return chatClient.prompt(prompt)
-                .call().content();
+                .call()
+                .entity(TravelPlan.class);
     }
 
 }

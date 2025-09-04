@@ -1,6 +1,7 @@
 package com.infiproton.springaidemo.controller;
 
 import com.infiproton.springaidemo.model.ChatRequest;
+import com.infiproton.springaidemo.model.TravelPlan;
 import com.infiproton.springaidemo.service.ChatService;
 import com.infiproton.springaidemo.service.TravelGuideService;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ class ChatController {
     }
 
     @GetMapping("/travel-guide")
-    public String prepareTravelPlan(@RequestParam String city, @RequestParam Integer days) {
+    public TravelPlan prepareTravelPlan(@RequestParam String city, @RequestParam Integer days) {
         return travelGuideService.prepareTravelPlan(city, days);
     }
 
