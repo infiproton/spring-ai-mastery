@@ -10,5 +10,6 @@ This repository contains examples for different modules of Spring AI integration
 | `module2.1-system-msg`    | Implementation with system message configuration |
 | `module2.2-assistant-msg` | Implementation with assistant message pattern |
 | `module2.3-prompt-templates` | Implementation using prompt templates for travel guide service |
+| `module2.4-external-prompts` | Implementation using external StringTemplate files for prompts |
 
 Each branch demonstrates a specific aspect or pattern of working with Spring AI.
