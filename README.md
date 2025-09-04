@@ -8,5 +8,6 @@ This repository contains examples for different modules of Spring AI integration
 |-------------|-------------|
 | `moduel1-simple-chatbot` | Simple chatbot implementation with Spring AI |
 | `module2-assistant-msg` | Implementation with assistant message pattern |
+| `module2.1-system-msg` | Implementation with system message configuration |
 
 Each branch demonstrates a specific aspect or pattern of working with Spring AI.
