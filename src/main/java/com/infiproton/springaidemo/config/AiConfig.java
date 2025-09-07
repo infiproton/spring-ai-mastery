@@ -15,7 +15,6 @@ class AiConfig {
     @Bean
     public ChatClient chatClient(OpenAiChatModel openAiChatModel) {
         return ChatClient.builder(openAiChatModel)
-                .defaultSystem("You are a helpful AI assistant.")
                 .defaultAdvisors(MessageChatMemoryAdvisor.builder(chatMemory).build())
                 .build();
     }
