@@ -23,5 +23,7 @@ This repository contains examples for different modules of Spring AI integration
 | Branch Name                  | Description                        |
 |------------------------------|------------------------------------|
 | `module3.2-chat-memory`      | Default chat memory integration |
+| `module3.3-conversation-id`  | Conversation ID management |
+| `module3.4-chaining-prompts` | Chaining prompts for complex interactions |
 
 Each branch demonstrates a specific aspect or pattern of working with Spring AI.
