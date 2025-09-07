@@ -31,12 +31,12 @@ class ChatController {
     }
 
     @GetMapping("/memory")
-    public List<Message> fetchMemory() {
-        return chatMemory.get("default");
+    public List<Message> fetchMemory(@RequestParam String conversationId) {
+        return chatMemory.get(conversationId);
     }
 
     @PostMapping("/chat")
-    public String chat(@RequestBody ChatRequest chatRequest){
-        return chatService.chat(chatRequest.getMessage());
+    public String chat(@RequestBody ChatRequest chatRequest) {
+        return chatService.chat(chatRequest.getConversationId(), chatRequest.getMessage());
     }
 }
