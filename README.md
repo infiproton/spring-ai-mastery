@@ -2,15 +2,26 @@
 
 This repository contains examples for different modules of Spring AI integration.
 
-## Modules
+## Module 1: Basic Chatbot
 
-| Branch Name               | Description |
-|---------------------------|-------------|
-| `moduel1-simple-chatbot`  | Simple chatbot implementation with Spring AI |
-| `module2.1-system-msg`    | Implementation with system message configuration |
-| `module2.2-assistant-msg` | Implementation with assistant message pattern |
-| `module2.3-prompt-templates` | Implementation using prompt templates for travel guide service |
-| `module2.4-external-prompts` | Implementation using external StringTemplate files for prompts |
-| `module2.5-structured-output` | Implementation of structured output with model classes |
+| Branch Name                  | Description                                      |
+|------------------------------|--------------------------------------------------|
+| `moduel1-simple-chatbot`     | Simple chatbot implementation with Spring AI      |
+
+## Module 2: Prompt Engineering
+
+| Branch Name                     | Description                                     |
+|----------------------------------|-------------------------------------------------|
+| `module2.1-system-msg`           | System message configuration                    |
+| `module2.2-assistant-msg`        | Assistant message pattern                       |
+| `module2.3-prompt-templates`     | Using prompt templates for travel guide service |
+| `module2.4-external-prompts`     | Using external StringTemplate files for prompts |
+| `module2.5-structured-output`    | Structured output with model classes            |
+
+## Module 3: Agent Memory/Context
+
+| Branch Name                  | Description                        |
+|------------------------------|------------------------------------|
+| `module3.2-chat-memory`      | Default chat memory integration |
 
 Each branch demonstrates a specific aspect or pattern of working with Spring AI.
