@@ -1,10 +1,12 @@
 package com.infiproton.springaidemo.service;
 
+import com.infiproton.springaidemo.tool.WeatherTools;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +17,8 @@ public class ChatService {
 
     private final ChatClient chatClient;
     private final ChatMemory chatMemory;
-
+    @Autowired
+    private WeatherTools weatherTools;
     ChatService(ChatClient chatClient, ChatMemory chatMemory) {
         this.chatClient = chatClient;
         this.chatMemory = chatMemory;
@@ -28,12 +31,13 @@ public class ChatService {
                 : conversationId;
 
         Prompt prompt = new Prompt(List.of(
-                new SystemMessage("You are a friendly travel guide. Always suggest 3 attractions and 1 food item. ")
+                new SystemMessage("You are a friendly travel guide. Suggest 3 attractions and 1 food item. ")
         ));
         return chatClient.prompt(prompt)
                 .advisors(MessageChatMemoryAdvisor.builder(chatMemory)
                         .conversationId(convId)
                         .build())
+                .tools(weatherTools)
                 .user(message)
                 .call().content();
     }
