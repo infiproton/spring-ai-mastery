@@ -9,6 +9,8 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,8 +32,11 @@ public class ChatService {
                 ? UUID.randomUUID().toString()
                 : conversationId;
 
+        String today = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+
         Prompt prompt = new Prompt(List.of(
-                new SystemMessage("You are a friendly travel guide. Suggest 3 attractions and 1 food item. ")
+                new SystemMessage("Today’s date is " + today + ". " +
+                        "You are a friendly travel guide. Suggest 3 attractions and 1 food item. ")
         ));
         return chatClient.prompt(prompt)
                 .advisors(MessageChatMemoryAdvisor.builder(chatMemory)
