@@ -1,6 +1,7 @@
 package com.infiproton.springaidemo.tool;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.infiproton.springaidemo.model.ForecastResponse;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.tool.annotation.Tool;
@@ -43,39 +44,6 @@ public class WeatherTools {
         } catch (Exception e) {
             log.error("Error fetching weather for {} on {}: {}", city, date, e.getMessage(), e);
             return "Could not fetch weather for " + city + " on " + date + ": " + e.getMessage();
-        }
-    }
-
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    @Data
-    public static class ForecastResponse {
-        private Forecast forecast;
-
-        @JsonIgnoreProperties(ignoreUnknown = true)
-        @Data
-        public static class Forecast {
-            private List<ForecastDay> forecastday;
-        }
-
-        @JsonIgnoreProperties(ignoreUnknown = true)
-        @Data
-        public static class ForecastDay {
-            private String date;
-            private Day day;
-        }
-
-        @JsonIgnoreProperties(ignoreUnknown = true)
-        @Data
-        public static class Day {
-            private double avgtemp_c;
-            private Condition condition;
-        }
-
-        @JsonIgnoreProperties(ignoreUnknown = true)
-        @Data
-        public static class Condition {
-            private String text;
         }
     }
 }
