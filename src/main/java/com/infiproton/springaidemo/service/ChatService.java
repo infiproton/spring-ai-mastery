@@ -1,9 +1,11 @@
 package com.infiproton.springaidemo.service;
 
+import com.infiproton.springaidemo.rag.VectorStoreService;
 import com.infiproton.springaidemo.tool.ContactsTool;
 import com.infiproton.springaidemo.tool.WeatherTools;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -20,13 +22,16 @@ public class ChatService {
 
     private final ChatClient chatClient;
     private final ChatMemory chatMemory;
+    private final VectorStoreService vectorStoreService;
+
     @Autowired
     private WeatherTools weatherTools;
     @Autowired
             private ContactsTool contactsTool;
-    ChatService(ChatClient chatClient, ChatMemory chatMemory) {
+    ChatService(ChatClient chatClient, ChatMemory chatMemory, VectorStoreService vectorStoreService) {
         this.chatClient = chatClient;
         this.chatMemory = chatMemory;
+        this.vectorStoreService = vectorStoreService;
     }
 
     public String chat(String conversationId, String message) {
@@ -42,12 +47,14 @@ public class ChatService {
                         "You are a friendly travel guide. Suggest 3 attractions and 1 food item." )
         ));
         return chatClient.prompt(prompt)
-                .advisors(MessageChatMemoryAdvisor.builder(chatMemory)
-                        .conversationId(convId)
-                        .build())
+                .advisors(new QuestionAnswerAdvisor(vectorStoreService.getVectorStore()),
+                        MessageChatMemoryAdvisor.builder(chatMemory)
+                                .conversationId(convId)
+                                .build())
                 .tools(weatherTools, contactsTool)
                 .user(message)
                 .call().content();
     }
 
 }
+

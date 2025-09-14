@@ -40,6 +40,11 @@ dependencies {
     // JDBC
     implementation 'org.springframework.ai:spring-ai-starter-model-chat-memory-repository-jdbc'
     runtimeOnly "org.postgresql:postgresql:42.7.7"
+
+    // RAG
+    implementation 'org.apache.pdfbox:pdfbox:2.0.30'
+    implementation 'org.springframework.ai:spring-ai-vector-store'
+    implementation 'org.springframework.ai:spring-ai-advisors-vector-store'
 }
 
 dependencyManagement {
