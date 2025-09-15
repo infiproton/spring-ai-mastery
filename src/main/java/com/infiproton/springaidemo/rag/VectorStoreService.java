@@ -24,6 +24,8 @@ public class VectorStoreService {
 
     @Value("${app.documents.travel-policy.file.path}")
     private String travelPolicyFilePath;
+    @Value("${app.documents.events.file.path}")
+    private String eventsFilePath;
 
     public VectorStoreService(PDFLoader pdfLoader, VectorStore vectorStore) {
         this.pdfLoader = pdfLoader;
@@ -31,14 +33,14 @@ public class VectorStoreService {
         this.textSplitter = new TokenTextSplitter();
     }
 
-    //@PostConstruct
     public void initialize() throws IOException {
-        String pdfText = pdfLoader.loadPDF(travelPolicyFilePath);
+        String travelPolicyText = pdfLoader.loadPDF(travelPolicyFilePath);
+        String eventsText = pdfLoader.loadPDF(eventsFilePath);
 
-        List<Document> documents = textSplitter.split(new Document(pdfText));
-        vectorStore.add(documents);
+        vectorStore.add(textSplitter.split(new Document(travelPolicyText)));
+        vectorStore.add(textSplitter.split(new Document(eventsText)));
 
-        log.info("✅ Vector store initialized with PDF content.");
+        log.info("✅ Vector store initialized with both PDF file's content.");
     }
 
 }
