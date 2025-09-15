@@ -31,7 +31,7 @@ public class VectorStoreService {
         this.textSplitter = new TokenTextSplitter();
     }
 
-    @PostConstruct
+    //@PostConstruct
     public void initialize() throws IOException {
         String pdfText = pdfLoader.loadPDF(travelPolicyFilePath);
 
