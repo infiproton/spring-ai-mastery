@@ -25,9 +25,9 @@ public class VectorStoreService {
     @Value("${app.documents.travel-policy.file.path}")
     private String travelPolicyFilePath;
 
-    public VectorStoreService(PDFLoader pdfLoader, EmbeddingModel embeddingModel) {
+    public VectorStoreService(PDFLoader pdfLoader, VectorStore vectorStore) {
         this.pdfLoader = pdfLoader;
-        this.vectorStore = SimpleVectorStore.builder(embeddingModel).build();
+        this.vectorStore = vectorStore;
         this.textSplitter = new TokenTextSplitter();
     }
 
