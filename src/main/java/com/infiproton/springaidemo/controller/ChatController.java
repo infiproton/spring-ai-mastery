@@ -44,6 +44,7 @@ class ChatController {
         return chatService.chat(chatRequest.getConversationId(), chatRequest.getMessage());
     }
 
+
     @PostMapping("/load-pdfs")
     public String loadPdfs() throws IOException {
         vectorStoreService.initialize();
