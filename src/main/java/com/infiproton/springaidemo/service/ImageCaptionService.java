@@ -16,7 +16,7 @@ public class ImageCaptionService {
     }
 
     public String captionImage(String imageName, String message) {
-        Resource imageResource = loadImageFromResources(imageName);
+        Resource imageResource = new ClassPathResource("images/" + imageName);
         return chatClient.prompt()
                 .user(userSpec -> userSpec
                         .text(message)
@@ -25,7 +25,4 @@ public class ImageCaptionService {
                 .content();
     }
 
-    private Resource loadImageFromResources(String imageName) {
-        return new ClassPathResource("images/" + imageName);
-    }
 }
