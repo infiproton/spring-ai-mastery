@@ -46,8 +46,6 @@ dependencies {
     implementation 'org.springframework.ai:spring-ai-vector-store'
     implementation 'org.springframework.ai:spring-ai-advisors-vector-store'
     implementation 'org.springframework.ai:spring-ai-starter-vector-store-redis'
-
-    implementation 'org.springframework.ai:spring-ai-starter-model-stability-ai'
 }
 
 dependencyManagement {
