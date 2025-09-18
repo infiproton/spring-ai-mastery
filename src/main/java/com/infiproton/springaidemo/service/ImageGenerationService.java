@@ -21,7 +21,7 @@ public class ImageGenerationService {
     public byte[] generate(String message) {
         ImageResponse imageResponse = imageModel.call(new ImagePrompt(message,
                 StabilityAiImageOptions.builder()
-                        .stylePreset(StyleEnum.CINEMATIC)
+                        .stylePreset(StyleEnum.PHOTOGRAPHIC)
                         .responseFormat("b64_json")
                         .build()));
         String b64 = imageResponse.getResult().getOutput().getB64Json();
