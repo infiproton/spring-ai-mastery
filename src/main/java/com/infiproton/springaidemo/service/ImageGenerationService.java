@@ -20,6 +20,9 @@ public class ImageGenerationService {
         ImageResponse imageResponse = imageModel.call(new ImagePrompt(message,
                 OpenAiImageOptions.builder()
                         .responseFormat("b64_json")
+                        .width(1792)
+                        .height(1024)
+                        .quality("hd")
                         .build()));
         String b64 = imageResponse.getResult().getOutput().getB64Json();
         return Base64.getDecoder().decode(b64);
