@@ -3,12 +3,12 @@ package com.infiproton.springaidemo.service;
 import org.springframework.ai.image.ImageModel;
 import org.springframework.ai.image.ImagePrompt;
 import org.springframework.ai.image.ImageResponse;
-import org.springframework.ai.stabilityai.StyleEnum;
 import org.springframework.ai.stabilityai.api.StabilityAiImageOptions;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ImageGenerationService {
@@ -18,13 +18,17 @@ public class ImageGenerationService {
         this.imageModel = imageModel;
     }
 
-    public byte[] generate(String message) {
-        ImageResponse imageResponse = imageModel.call(new ImagePrompt(message,
+    public List<String> generate(String message, String style, Integer count) {
+        ImagePrompt prompt = new ImagePrompt(message,
                 StabilityAiImageOptions.builder()
-                        .stylePreset(StyleEnum.PHOTOGRAPHIC)
+                        .stylePreset(style)
+                        .N(count)
                         .responseFormat("b64_json")
-                        .build()));
-        String b64 = imageResponse.getResult().getOutput().getB64Json();
-        return Base64.getDecoder().decode(b64);
+                        .build());
+        ImageResponse imageResponse = imageModel.call(prompt);
+
+        return imageResponse.getResults().stream()
+                .map(r -> "data:image/png;base64," + r.getOutput().getB64Json())
+                .collect(Collectors.toList());
     }
 }

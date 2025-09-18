@@ -7,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/ai/image")
 class ImageRestController {
@@ -25,10 +27,9 @@ class ImageRestController {
     }
 
     @GetMapping("/generate")
-    public ResponseEntity<byte[]> generateImage(@RequestParam String message) {
-        byte[] imageBytes = imageGenerationService.generate(message);
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_PNG)
-                .body(imageBytes);
+    public List<String> generateImage(@RequestParam String message,
+                                      @RequestParam String style,
+                                      @RequestParam Integer count) {
+        return imageGenerationService.generate(message, style, count);
     }
 }
