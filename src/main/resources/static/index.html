@@ -5,7 +5,7 @@
     <title>Stability.AI Demo</title>
     <style>
         img {
-            width: 400px;
+            width: 300px;
             margin: 10px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -32,7 +32,7 @@
         e.preventDefault();
         const prompt = document.getElementById("prompt").value;
         const style = document.getElementById("style").value;
-        const res = await fetch(`/ai/image/generate?message=${encodeURIComponent(prompt)}&style=${encodeURIComponent(style)}&count=3`);
+        const res = await fetch(`/ai/image/generate?message=${encodeURIComponent(prompt)}&style=${encodeURIComponent(style)}&count=4`);
         const images = await res.json();
 
         const resultsDiv = document.getElementById("results");
