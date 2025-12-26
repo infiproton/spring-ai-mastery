@@ -4,9 +4,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.ai.audio.transcription.AudioTranscriptionOptions;
 import org.springframework.ai.audio.transcription.AudioTranscriptionPrompt;
 import org.springframework.ai.audio.transcription.AudioTranscriptionResponse;
+import org.springframework.ai.openai.OpenAiAudioSpeechModel;
+import org.springframework.ai.openai.OpenAiAudioSpeechOptions;
 import org.springframework.ai.openai.OpenAiAudioTranscriptionModel;
 import org.springframework.ai.openai.OpenAiAudioTranscriptionOptions;
 import org.springframework.ai.openai.api.OpenAiAudioApi;
+import org.springframework.ai.openai.audio.speech.SpeechPrompt;
+import org.springframework.ai.openai.audio.speech.SpeechResponse;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,22 @@ public class AudioService {
     private static final Path AUDIO_DIR = Path.of(System.getProperty("java.io.tmpdir"), "spring-ai-audio");
 
     private final OpenAiAudioTranscriptionModel transcriptionModel;
+    private final OpenAiAudioSpeechModel speechModel;
+
+    public byte[] textToSpeech(String text) {
+        // 1. define options
+        OpenAiAudioSpeechOptions options = OpenAiAudioSpeechOptions.builder()
+                .model("tts-1") // tts-1, tts-1-hd
+                .voice("echo") // alloy, echo, fable, onyx, nova, shimmer
+                .build();
+
+        // 2. create prompt
+        SpeechPrompt prompt = new SpeechPrompt(text, options);
+
+        // 3. call LLM
+        SpeechResponse response = speechModel.call(prompt);
+        return response.getResult().getOutput();
+    }
 
     public String speechToText(String storedFileName) {
         try {

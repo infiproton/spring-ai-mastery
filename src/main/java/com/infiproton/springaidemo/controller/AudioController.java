@@ -24,6 +24,14 @@ class AudioController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/to-speech")
+    public ResponseEntity<byte[]> textToSpeech(@RequestParam("text") String text) {
+        byte[] audio = audioService.textToSpeech(text);
+        return ResponseEntity.ok()
+                .header("Content-Type", "audio/mpeg")
+                .body(audio);
+    }
+
     @PostMapping("/to-text")
     public ResponseEntity<Map<String, Object>> speechToText(@RequestParam("file") MultipartFile file) {
         Map<String, Object> uploadResult = audioService.store(file);
