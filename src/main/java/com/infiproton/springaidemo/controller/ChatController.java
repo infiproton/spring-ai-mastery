@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +29,29 @@ class ChatController {
     private ChatMemory chatMemory;
     private final VectorStoreService vectorStoreService;
     private final AudioService audioService;
+
+    @PostMapping("/chat/audio/voice")
+    public ResponseEntity<byte[]> voiceChat(@RequestParam("file") MultipartFile file) {
+        // 1. Upload audio
+        Map<String, Object> uploadResult = audioService.store(file);
+        String storedFileName = (String) uploadResult.get("storedFileName");
+
+        // 2. Speech to text
+        String transcript = audioService.speechToText(storedFileName);
+
+        // 3. AI Chat service
+        String aiResponse = chatService.chat(null, transcript);
+
+        // 4. text to speech
+        byte[] audioResponse = audioService.textToSpeech(aiResponse);
+
+        // 5. return audio output
+        return ResponseEntity.ok()
+                .header("Content-Type", "audio/mpeg")
+                .header("X-Transcript", transcript)
+                .header("X-AI-Response", aiResponse)
+                .body(audioResponse);
+    }
 
     @PostMapping("/chat/audio")
     public Map<String, Object> chatWithAudio(@RequestParam("file") MultipartFile file) {
