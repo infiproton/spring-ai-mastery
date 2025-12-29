@@ -10,9 +10,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Flux;
 
 import java.io.IOException;
 import java.util.List;
@@ -82,6 +84,11 @@ class ChatController {
     @PostMapping("/chat")
     public String chat(@RequestBody ChatRequest chatRequest) {
         return chatService.chat(chatRequest.getConversationId(), chatRequest.getMessage());
+    }
+
+    @PostMapping(value = "/chat/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<String> streamChat(@RequestBody ChatRequest chatRequest) {
+        return chatService.streamChat(chatRequest.getMessage());
     }
 
 

@@ -8,9 +8,11 @@ import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.SystemMessage;
+import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -32,6 +34,16 @@ public class ChatService {
         this.chatClient = chatClient;
         this.chatMemory = chatMemory;
         this.vectorStoreService = vectorStoreService;
+    }
+
+    public Flux<String> streamChat(String message) {
+        Prompt prompt = new Prompt(new UserMessage(message));
+
+        return chatClient.prompt(prompt)
+                .advisors(new QuestionAnswerAdvisor(vectorStoreService.getVectorStore()))
+                .tools(weatherTools, contactsTool)
+                .stream()
+                .content();
     }
 
     public String chat(String conversationId, String message) {
