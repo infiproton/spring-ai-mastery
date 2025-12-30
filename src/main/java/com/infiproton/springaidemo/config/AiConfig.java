@@ -10,8 +10,7 @@ class AiConfig {
 
     @Bean
     public ChatClient chatClient(OpenAiChatModel openAiChatModel) {
-        return ChatClient.builder(openAiChatModel).build();
+        return ChatClient.builder(openAiChatModel)
+                .build();
     }
-
-
 }
